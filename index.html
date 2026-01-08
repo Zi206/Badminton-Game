@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+  <title>火柴人羽毛球 - Stickman Badminton</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #222;
+      overflow: hidden;
+      font-family: 'Permanent Marker', cursive;
+    }
+
+    #gameCanvas {
+      border: 3px solid #8B4513;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      /* CSS缩放以保持大小，但降低渲染分辨率 */
+      width: 1200px;
+      height: 700px;
+      image-rendering: auto;
+      image-rendering: crisp-edges;
+      image-rendering: pixelated;
+    }
+
+    #loading {
+      position: absolute;
+      color: white;
+      font-size: 24px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="loading"> Loading... </div>
+
+  <div id="menu-overlay" class="hidden">
+    <canvas id="menu-particles"></canvas>
+    <h1 class="menu-title">Badminton Game</h1>
+    <div class="menu-buttons">
+      <button class="menu-btn single" id="btn-single">
+        <span>SINGLE PLAYER</span>
+      </button>
+      <button class="menu-btn multi" id="btn-multi">
+        <span>TWO PLAYERS</span>
+      </button>
+      <button class="menu-btn online" id="btn-online">
+        <span>🌐 ONLINE</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- 联机大厅 -->
+  <div id="online-lobby">
+    <canvas id="online-particles"></canvas>
+    <!-- 主面板 -->
+    <div id="lobby-main" class="lobby-panel active">
+      <h1 class="lobby-title">MULTIPLAYER</h1>
+      <div class="lobby-buttons">
+        <button id="btn-create-room" class="lobby-btn">
+          <span>CREATE A ROOM</span>
+        </button>
+        <button id="btn-join-room" class="lobby-btn secondary">
+          <span>ENTER THE ROOM</span>
+        </button>
+        <button id="btn-back-menu" class="lobby-btn back">
+          <span>← GO BACK</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 创建房间面板 -->
+    <div id="lobby-host" class="lobby-panel">
+      <h1 class="lobby-title">ROOM CREATED</h1>
+      <div class="room-code-display">
+        <div class="room-code-label">ROOM CODE</div>
+        <div id="room-code" class="room-code">------</div>
+      </div>
+      <p class="lobby-status">Waiting for opponent...</p>
+      <button class="lobby-btn back btn-back-lobby">
+        <span>← CANCEL</span>
+      </button>
+    </div>
+
+    <!-- 加入房间面板 -->
+    <div id="lobby-join" class="lobby-panel">
+      <h1 class="lobby-title">JOIN ROOM</h1>
+      <div class="room-input-container">
+        <input type="text" id="room-code-input" class="room-input" placeholder="ROOM CODE" maxlength="6"
+          autocomplete="off">
+        <button id="btn-confirm-join" class="lobby-btn">
+          <span>JOIN</span>
+        </button>
+      </div>
+      <p class="lobby-status"></p>
+      <button class="lobby-btn back btn-back-lobby">
+        <span>← GO BACK</span>
+      </button>
+    </div>
+
+    <!-- 等待开始面板 -->
+    <div id="lobby-waiting" class="lobby-panel">
+      <div class="waiting-screen">
+        <div class="waiting-animation">🏸</div>
+        <h1 class="lobby-title">GET READY</h1>
+        <p class="lobby-status success">Connected! Game starting...</p>
+      </div>
+    </div>
+  </div>
+
+  <canvas id="gameCanvas"></canvas>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
+</html>
